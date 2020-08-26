@@ -29,10 +29,22 @@ class Welcome() : Fragment() {
         return binding.root
     }
 
-    class ScreenOne {
+    class ScreenOne() : Fragment() {
+        companion object {
 
+        }
     }
 
-    class ScreenTwo
+    class ScreenTwo() : Fragment() {
+        companion object {
+
+        }
+    }
+
+    class ScreenThree() : Fragment() {
+        companion object {
+
+        }
+    }
 
 }
