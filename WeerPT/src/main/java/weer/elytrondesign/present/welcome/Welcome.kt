@@ -33,4 +33,6 @@ class Welcome() : Fragment() {
 
     }
 
+    class ScreenTwo
+
 }
