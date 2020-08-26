@@ -29,5 +29,8 @@ class Welcome() : Fragment() {
         return binding.root
     }
 
+    class ScreenOne {
+
+    }
 
 }
