@@ -13,13 +13,6 @@ import java.lang.IllegalArgumentException
 abstract class Core {
 
     companion object {
-        class ThemedView(val view: View, val lightAction: ViewTransformer, val darkAction: ViewTransformer)
-
-        @FunctionalInterface
-        interface ViewTransformer {
-            fun transform(view: View)
-        }
-
         const val PKEY = "weer.elytrondesign.preferences"
         const val PK_THEME = "theme"
         const val PK_FIRST_LAUNCH = "firstLaunch"
@@ -96,5 +89,6 @@ abstract class Core {
                 }
             }
         }
+
     }
 }

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "645277242877",
+    "firebase_url": "https://weer-9b1db.firebaseio.com",
+    "project_id": "weer-9b1db",
+    "storage_bucket": "weer-9b1db.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:645277242877:android:61a9447084c97959377594",
+        "android_client_info": {
+          "package_name": "weer.elytrondesign"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "645277242877-f7q6lvpn56hl78hodstq0pkt73v7np5q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7UDaGJWMDggnAGKRHgWF5w26fU9n9EL4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "645277242877-f7q6lvpn56hl78hodstq0pkt73v7np5q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

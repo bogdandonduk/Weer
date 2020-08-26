@@ -44,11 +44,11 @@ class Home : AppCompatActivity() {
             }
         )))
 
-        if(Core.getPreference(Core.PK_FIRST_LAUNCH, true) as Boolean) {
-            Core.loadFragment(Welcome.getInstance(), binding.homeContentL.id)
-        } else {
-            Core.loadFragment(Collection.getInstance(), binding.homeContentL.id)
-        }
+//        if(Core.getPreference(Core.PK_FIRST_LAUNCH, true) as Boolean) {
+//            Core.loadFragment(Welcome.getInstance(), binding.homeContentL.id)
+//        } else {
+//            Core.loadFragment(Collection.getInstance(), binding.homeContentL.id)
+//        }
 
     }
 
