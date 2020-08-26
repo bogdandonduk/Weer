@@ -1,0 +1,4 @@
+<resources>
+    <string name="appName">Weer</string>
+    <string name="noNetworkMessage">No Network</string>
+</resources>
