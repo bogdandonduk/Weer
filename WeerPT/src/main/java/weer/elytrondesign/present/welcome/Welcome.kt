@@ -48,13 +48,13 @@ class Welcome() : Fragment() {
 
     class PageTwo() : Fragment() {
         companion object {
-            lateinit var binding: FragmentWelcomePageBinding
+            var binding: FragmentWelcomePageBinding = pageBinding
         }
     }
 
     class PageThree() : Fragment() {
         companion object {
-            lateinit var binding: FragmentWelcomePageBinding
+            var binding: FragmentWelcomePageBinding = pageBinding
         }
     }
 

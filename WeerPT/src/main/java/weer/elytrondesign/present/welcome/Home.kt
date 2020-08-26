@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.fragment.app.FragmentManager
 import weer.elytrondesign.core.Core
+import weer.elytrondesign.core.ThemedView
+import weer.elytrondesign.core.ViewTransformer
 import weer.elytrondesign.databinding.ActivityHomeBinding
 import weer.elytrondesign.present.collection.Collection
 
@@ -30,14 +32,14 @@ class Home : AppCompatActivity() {
 
         fm = supportFragmentManager
 
-        Core.loadTheme(arrayOf(Core.Companion.ThemedView(
+        Core.loadTheme(arrayOf(ThemedView(
             binding.homeRl,
-            object : Core.Companion.ViewTransformer {
+            object : ViewTransformer {
                 override fun transform(view: View) {
                     binding.homeRl.setBackgroundColor(Color.WHITE)
                 }
             },
-            object : Core.Companion.ViewTransformer {
+            object : ViewTransformer {
                 override fun transform(view: View) {
                     binding.homeRl.setBackgroundColor(Color.BLACK)
                 }
