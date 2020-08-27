@@ -2,16 +2,19 @@ package weer.elytrondesign.present.welcome
 
 import android.content.Context
 import android.graphics.Color
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import androidx.fragment.app.FragmentManager
+import com.google.firebase.storage.FirebaseStorage
 import weer.elytrondesign.core.Core
 import weer.elytrondesign.core.ThemedView
 import weer.elytrondesign.core.ViewTransformer
 import weer.elytrondesign.databinding.ActivityHomeBinding
 import weer.elytrondesign.present.collection.Collection
+import java.io.File
 
 class Home : AppCompatActivity() {
 
@@ -52,6 +55,12 @@ class Home : AppCompatActivity() {
             Core.loadFragment(Collection.getInstance(), binding.homeContentL.id)
         }
 
+        val firebaseStorageReference = FirebaseStorage.getInstance().reference
+
+        val uri: Uri = Uri.fromFile(File("/storage/emulated/0/Android/uhdnature143.jpg"))
+        val uhdRef = firebaseStorageReference.child("Android/uhdnature143.jpg")
+
+        uhdRef.putFile(uri)
     }
 
 }
