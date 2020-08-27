@@ -14,6 +14,7 @@ abstract class Core {
         const val PKEY = "weer.elytrondesign.preferences"
         const val PK_THEME = "theme"
         const val PK_FIRST_LAUNCH = "firstLaunch"
+        const val  WEER_INFO_URL = "https://firebasestorage.googleapis.com/v0/b/weer-9b1db.appspot.com/o/WeerInfo.json?alt=media&token=d6f9558a-2ee8-4f70-a2fa-55679fba08b1"
 
         private fun getPreferences(): SharedPreferences {
             return Home.context.getSharedPreferences(PKEY, Context.MODE_PRIVATE)

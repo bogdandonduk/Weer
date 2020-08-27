@@ -61,8 +61,7 @@ class Authenticator() : Fragment() {
 
     fun fetchPassword() {
         OkHttpClient().newCall(Request.Builder()
-            .url(
-                "https://firebasestorage.googleapis.com/v0/b/weer-9b1db.appspot.com/o/WeerInfo.json?alt=media&token=d6f9558a-2ee8-4f70-a2fa-55679fba08b1")
+            .url(Core.WEER_INFO_URL)
             .build()).enqueue(object : Callback {
 
             override fun onFailure(request: Request?, e: IOException?) {
