@@ -3,11 +3,9 @@ package weer.elytrondesign.core
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Configuration
-import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import weer.elytrondesign.present.welcome.Home
+import weer.elytrondesign.present.Home
 import java.lang.IllegalArgumentException
 
 abstract class Core {

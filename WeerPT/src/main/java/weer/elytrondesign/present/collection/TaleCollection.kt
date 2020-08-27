@@ -7,12 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import weer.elytrondesign.databinding.FragmentCollectionBinding
 
-class Collection() : Fragment() {
+class TaleCollection() : Fragment() {
     companion object {
         lateinit var binding: FragmentCollectionBinding
 
-        fun getInstance() : Collection {
-            return Collection()
+        fun getInstance() : TaleCollection {
+            return TaleCollection()
         }
     }
 

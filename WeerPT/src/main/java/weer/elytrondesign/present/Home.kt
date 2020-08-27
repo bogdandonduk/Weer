@@ -1,20 +1,17 @@
-package weer.elytrondesign.present.welcome
+package weer.elytrondesign.present
 
 import android.content.Context
 import android.graphics.Color
-import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import androidx.fragment.app.FragmentManager
-import com.google.firebase.storage.FirebaseStorage
 import weer.elytrondesign.core.Core
 import weer.elytrondesign.core.ThemedView
 import weer.elytrondesign.core.ViewTransformer
 import weer.elytrondesign.databinding.ActivityHomeBinding
-import weer.elytrondesign.present.collection.Collection
-import java.io.File
+import weer.elytrondesign.present.collection.TaleCollection
 
 class Home : AppCompatActivity() {
 
@@ -22,7 +19,6 @@ class Home : AppCompatActivity() {
         lateinit var context: Context
         lateinit var binding: ActivityHomeBinding
         lateinit var fm: FragmentManager
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,9 +46,9 @@ class Home : AppCompatActivity() {
         )))
 
         if(Core.getPreference(Core.PK_FIRST_LAUNCH, true) as Boolean) {
-            Core.loadFragment(Welcome.getInstance(), binding.homeContentL.id)
+            Core.loadFragment(Authenticator.getInstance(), binding.homeContentL.id)
         } else {
-            Core.loadFragment(Collection.getInstance(), binding.homeContentL.id)
+            Core.loadFragment(TaleCollection.getInstance(), binding.homeContentL.id)
         }
 
     }

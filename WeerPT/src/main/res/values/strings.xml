@@ -1,4 +1,5 @@
 <resources>
     <string name="appName">Weer</string>
     <string name="noNetworkMessage">No Network</string>
+    <string name="authHint">Enter Password</string>
 </resources>

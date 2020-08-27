@@ -1,9 +1,13 @@
 package weer.elytrondesign.present.welcome
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.MimeTypeMap
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
@@ -16,7 +20,6 @@ class Welcome() : Fragment() {
     companion object {
         lateinit var binding: FragmentWelcomeBinding
         lateinit var pageBinding: FragmentWelcomePageBinding
-        lateinit var lightBackgroundsStorageRef: StorageReference
 
         fun getInstance() : Welcome {
             return Welcome()
@@ -29,16 +32,6 @@ class Welcome() : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentWelcomeBinding.inflate(inflater, container, false)
-
-        lightBackgroundsStorageRef = FirebaseStorage.getInstance().getReference("lightBackgrounds")
-
-        binding.selectButton.setOnClickListener {
-            
-        }
-
-        binding.uploadButton.setOnClickListener {
-
-        }
 
         return binding.root
     }
