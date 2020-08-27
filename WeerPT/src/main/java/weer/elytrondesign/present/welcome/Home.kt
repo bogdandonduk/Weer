@@ -55,12 +55,6 @@ class Home : AppCompatActivity() {
             Core.loadFragment(Collection.getInstance(), binding.homeContentL.id)
         }
 
-        val firebaseStorageReference = FirebaseStorage.getInstance().reference
-
-        val uri: Uri = Uri.fromFile(File("/storage/emulated/0/Android/"))
-        val uhdRef = firebaseStorageReference.child("uhdnature527.jpg")
-
-        uhdRef.putFile(uri)
     }
 
 }
