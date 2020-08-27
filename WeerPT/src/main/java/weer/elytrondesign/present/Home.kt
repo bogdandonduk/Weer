@@ -16,6 +16,7 @@ import weer.elytrondesign.core.ThemedView
 import weer.elytrondesign.core.ViewTransformer
 import weer.elytrondesign.databinding.ActivityHomeBinding
 import weer.elytrondesign.present.collection.TaleCollection
+import weer.elytrondesign.present.welcome.Welcome
 import java.io.IOException
 
 class Home : AppCompatActivity() {
@@ -24,7 +25,6 @@ class Home : AppCompatActivity() {
         lateinit var context: Context
         lateinit var binding: ActivityHomeBinding
         lateinit var fm: FragmentManager
-        lateinit var authTokens: Array<Int>
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,36 +51,16 @@ class Home : AppCompatActivity() {
             }
         )))
 
-        authTokens = arrayOf(0, 1, 2)
-
-        if(Core.getPreference("authToken", 10001) == 10001) {
+        if(!(Core.getPreference(Core.PK_AUTHENTICATED, false) as Boolean)) {
             Core.loadFragment(Authenticator.getInstance(), binding.homeContentL.id)
         } else {
-
-        }
-
-        if(Core.getPreference(Core.PK_FIRST_LAUNCH, true) as Boolean) {
-
-        } else {
-            Core.loadFragment(TaleCollection.getInstance(), binding.homeContentL.id)
+            if(Core.getPreference(Core.PK_FIRST_LAUNCH, true) as Boolean) {
+                Core.loadFragment(Welcome.getInstance(), binding.homeContentL.id)
+            } else {
+                Core.loadFragment(TaleCollection.getInstance(), binding.homeContentL.id)
+            }
         }
 
     }
 
-    fun fetchAuthTokens() {
-        OkHttpClient().newCall(Request.Builder()
-            .url(Core.WEER_INFO_URL)
-            .build()).enqueue(object : Callback {
-
-            override fun onFailure(request: Request?, e: IOException?) {
-                finish()
-            }
-
-            override fun onResponse(response: Response?) {
-                val rawResponse = response!!.body().string()
-
-                authTokens
-            }
-        })
-    }
 }

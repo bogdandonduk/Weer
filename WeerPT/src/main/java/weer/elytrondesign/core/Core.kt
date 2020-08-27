@@ -5,6 +5,9 @@ import android.content.SharedPreferences
 import android.content.res.Configuration
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import com.squareup.okhttp.Callback
+import com.squareup.okhttp.OkHttpClient
+import com.squareup.okhttp.Request
 import weer.elytrondesign.present.Home
 import java.lang.IllegalArgumentException
 
@@ -14,6 +17,7 @@ abstract class Core {
         const val PKEY = "weer.elytrondesign.preferences"
         const val PK_THEME = "theme"
         const val PK_FIRST_LAUNCH = "firstLaunch"
+        const val PK_AUTHENTICATED = "authenticated"
         const val  WEER_INFO_URL = "https://firebasestorage.googleapis.com/v0/b/weer-9b1db.appspot.com/o/WeerInfo.json?alt=media&token=d6f9558a-2ee8-4f70-a2fa-55679fba08b1"
 
         private fun getPreferences(): SharedPreferences {
@@ -87,6 +91,10 @@ abstract class Core {
                     it.darkAction.transform(it.view)
                 }
             }
+        }
+
+        fun fetch(url: String, callback: Callback) {
+            OkHttpClient().newCall(Request.Builder().url(url).build()).enqueue(callback)
         }
 
     }
