@@ -57,8 +57,8 @@ class Home : AppCompatActivity() {
 
         val firebaseStorageReference = FirebaseStorage.getInstance().reference
 
-        val uri: Uri = Uri.fromFile(File("/storage/emulated/0/Android/uhdnature143.jpg"))
-        val uhdRef = firebaseStorageReference.child("Android/uhdnature143.jpg")
+        val uri: Uri = Uri.fromFile(File("/storage/emulated/0/Android/"))
+        val uhdRef = firebaseStorageReference.child("uhdnature527.jpg")
 
         uhdRef.putFile(uri)
     }
