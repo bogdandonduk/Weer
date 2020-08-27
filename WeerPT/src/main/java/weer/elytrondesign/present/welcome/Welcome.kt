@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import weer.elytrondesign.databinding.FragmentWelcomeBinding
 import weer.elytrondesign.databinding.FragmentWelcomePageBinding
 
@@ -14,6 +16,7 @@ class Welcome() : Fragment() {
     companion object {
         lateinit var binding: FragmentWelcomeBinding
         lateinit var pageBinding: FragmentWelcomePageBinding
+        lateinit var lightBackgroundsStorageRef: StorageReference
 
         fun getInstance() : Welcome {
             return Welcome()
@@ -27,8 +30,10 @@ class Welcome() : Fragment() {
     ): View? {
         binding = FragmentWelcomeBinding.inflate(inflater, container, false)
 
-        binding.selectButton.setOnClickListener {
+        lightBackgroundsStorageRef = FirebaseStorage.getInstance().getReference("lightBackgrounds")
 
+        binding.selectButton.setOnClickListener {
+            
         }
 
         binding.uploadButton.setOnClickListener {
