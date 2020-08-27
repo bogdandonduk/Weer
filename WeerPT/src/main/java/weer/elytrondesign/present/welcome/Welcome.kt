@@ -26,7 +26,15 @@ class Welcome() : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentWelcomeBinding.inflate(inflater, container, false)
-        
+
+        binding.selectButton.setOnClickListener {
+
+        }
+
+        binding.uploadButton.setOnClickListener {
+
+        }
+
         return binding.root
     }
 
