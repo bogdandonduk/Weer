@@ -21,6 +21,7 @@ abstract class Core {
         const val PK_LAST_TALE_INDEX = "lastTaleIndex"
         const val WEER_INFO_URL = "https://firebasestorage.googleapis.com/v0/b/weer-9b1db.appspot.com/o/WeerInfo.json?alt=media&token=d6f9558a-2ee8-4f70-a2fa-55679fba08b1"
         const val WEER_CU_URl = "https://firebasestorage.googleapis.com/v0/b/weer-9b1db.appspot.com/o/cU.json?alt=media&token=21e0283c-b70a-4b7a-9af7-a36b12f57ad4"
+        const val WEER_INFO_FILENAME = "WeerInfo.json"
 
         private fun getPreferences(): SharedPreferences {
             return Home.context.getSharedPreferences(PKEY, Context.MODE_PRIVATE)

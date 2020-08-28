@@ -2,11 +2,9 @@ package weer.elytrondesign.present
 
 import android.content.Context
 import android.graphics.Color
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.Settings
-import android.telephony.TelephonyManager
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
@@ -14,7 +12,6 @@ import androidx.fragment.app.FragmentManager
 import com.squareup.okhttp.Callback
 import com.squareup.okhttp.Request
 import com.squareup.okhttp.Response
-import kotlinx.android.synthetic.main.activity_home.view.*
 import org.json.JSONObject
 import weer.elytrondesign.core.Core
 import weer.elytrondesign.core.ThemedView
@@ -25,6 +22,8 @@ import weer.elytrondesign.present.welcome.Welcome
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.lang.StringBuilder
+import java.util.*
 
 class Home : AppCompatActivity() {
 
@@ -53,57 +52,78 @@ class Home : AppCompatActivity() {
             }
 
             override fun onResponse(response: Response?) {
-                val stringResponse = response!!.body().string()
+                val cuResponse = response!!.body().string()
 
-                if(JSONObject(stringResponse!!).getString("cU").equals("y")) {
+                if(JSONObject(cuResponse!!).getString("cU").equals("y")) {
                     Core.fetch(Core.WEER_INFO_URL, object : Callback {
                         override fun onFailure(request: Request?, e: IOException?) {
-                            finish()
+
                         }
 
                         override fun onResponse(response: Response?) {
-                            weerInfo = response!!.body().string()
+                            val weerInfoResponse = response!!.body().string()
+
+                            weerInfo = weerInfoResponse
+
+                            val overwrittenWeerInfoFile = File(filesDir, Core.WEER_INFO_FILENAME)
+                                overwrittenWeerInfoFile.createNewFile()
+
+                            val overwrittenWeerInfoOutputStream = FileOutputStream(overwrittenWeerInfoFile, true)
+                                overwrittenWeerInfoOutputStream.write(weerInfoResponse.toByteArray())
+                                overwrittenWeerInfoOutputStream.flush()
+                                overwrittenWeerInfoOutputStream.close()
+
                             runOnUiThread {
-                                onWeerInfoFetched()
+                                onContentUpdatedFetched()
                             }
                         }
 
                     })
                 } else {
-                    if(!File(getExternalFilesDir(null), "WeeInfo.json").exists()) {
+                    if(!File(filesDir, Core.WEER_INFO_FILENAME).exists()) {
                         Core.fetch(Core.WEER_INFO_URL, object : Callback {
                             override fun onFailure(request: Request?, e: IOException?) {
 
                             }
 
                             override fun onResponse(response: Response?) {
-                                val stringResponse2: String = response!!.body().string()
+                                val weerInfoResponse: String = response!!.body().string()
 
-                                weerInfo = stringResponse2
+                                weerInfo = weerInfoResponse
 
-                                val weerInfoFile = File(getExternalFilesDir(null), "WeerInfo.json")
+                                val weerInfoFile = File(filesDir, Core.WEER_INFO_FILENAME)
                                     weerInfoFile.createNewFile()
 
-                                val outputStream = FileOutputStream(weerInfoFile, true)
-                                    outputStream.write(stringResponse2.toByteArray())
-                                    outputStream.flush()
-                                    outputStream.close()
+                                val weerInfoOutputStream = FileOutputStream(weerInfoFile, true)
+                                    weerInfoOutputStream.write(weerInfoResponse.toByteArray())
+                                    weerInfoOutputStream.flush()
+                                    weerInfoOutputStream.close()
                             }
 
                         })
-                    } else {
 
+                    } else {
+                        val readWeerInfoFile = File(filesDir, Core.WEER_INFO_FILENAME)
+                        val builder = StringBuilder()
+
+                        val scanner = Scanner(readWeerInfoFile)
+
+                        while(scanner.hasNextLine()) {
+                            builder.append(scanner.nextLine())
+                        }
+
+                        weerInfo = builder.toString()
                     }
+
+
                 }
             }
 
         })
 
-
-
     }
 
-    fun onWeerInfoFetched() {
+    fun onContentUpdatedFetched() {
         binding.homeRl.visibility = View.VISIBLE
 
         Core.loadTheme(arrayOf(ThemedView(
@@ -119,8 +139,6 @@ class Home : AppCompatActivity() {
                 }
             }
         )))
-
-        Toast.makeText(context, Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID), Toast.LENGTH_SHORT).show()
 
         if(!(Core.getPreference(Core.PK_AUTHENTICATED, false) as Boolean)) {
             Core.loadFragment(Authenticator.getInstance(), binding.homeContentL.id)
