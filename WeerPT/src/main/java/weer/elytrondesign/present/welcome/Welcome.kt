@@ -13,8 +13,12 @@ import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import kotlinx.android.synthetic.main.activity_home.*
+import weer.elytrondesign.core.Core
 import weer.elytrondesign.databinding.FragmentWelcomeBinding
 import weer.elytrondesign.databinding.FragmentWelcomePageBinding
+import weer.elytrondesign.present.Home
+import weer.elytrondesign.present.collection.TaleCollection
 
 class Welcome() : Fragment() {
     companion object {
@@ -32,6 +36,10 @@ class Welcome() : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentWelcomeBinding.inflate(inflater, container, false)
+
+        binding.welcomeStartBtn.setOnClickListener {
+            Core.loadFragment(TaleCollection.getInstance(), Home.binding.homeContentL.id)
+        }
 
         return binding.root
     }

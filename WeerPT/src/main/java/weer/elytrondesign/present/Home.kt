@@ -8,9 +8,9 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.fragment.app.FragmentManager
 import com.squareup.okhttp.Callback
-import com.squareup.okhttp.OkHttpClient
 import com.squareup.okhttp.Request
 import com.squareup.okhttp.Response
+import kotlinx.android.synthetic.main.activity_home.view.*
 import weer.elytrondesign.core.Core
 import weer.elytrondesign.core.ThemedView
 import weer.elytrondesign.core.ViewTransformer
@@ -25,6 +25,7 @@ class Home : AppCompatActivity() {
         lateinit var context: Context
         lateinit var binding: ActivityHomeBinding
         lateinit var fm: FragmentManager
+        lateinit var weerInfo: String
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +37,27 @@ class Home : AppCompatActivity() {
         setContentView(binding.root)
 
         fm = supportFragmentManager
+
+        binding.homeRl.visibility = View.GONE
+
+        Core.fetch(Core.WEER_INFO_URL, object : Callback {
+            override fun onFailure(request: Request?, e: IOException?) {
+                finish()
+            }
+
+            override fun onResponse(response: Response?) {
+                weerInfo = response!!.body().string()
+                runOnUiThread {
+                    onWeerInfoFetched()
+                }
+            }
+
+        })
+
+    }
+
+    fun onWeerInfoFetched() {
+        binding.homeRl.visibility = View.VISIBLE
 
         Core.loadTheme(arrayOf(ThemedView(
             binding.homeRl,
@@ -60,7 +82,5 @@ class Home : AppCompatActivity() {
                 Core.loadFragment(TaleCollection.getInstance(), binding.homeContentL.id)
             }
         }
-
     }
-
 }

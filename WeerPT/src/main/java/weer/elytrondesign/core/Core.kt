@@ -18,6 +18,7 @@ abstract class Core {
         const val PK_THEME = "theme"
         const val PK_FIRST_LAUNCH = "firstLaunch"
         const val PK_AUTHENTICATED = "authenticated"
+        const val PK_LAST_TALE_INDEX = "lastTaleIndex"
         const val  WEER_INFO_URL = "https://firebasestorage.googleapis.com/v0/b/weer-9b1db.appspot.com/o/WeerInfo.json?alt=media&token=d6f9558a-2ee8-4f70-a2fa-55679fba08b1"
 
         private fun getPreferences(): SharedPreferences {

@@ -20,12 +20,11 @@ class Authenticator() : Fragment() {
 
     companion object {
         lateinit var binding: FragmentAuthenticatorBinding
-        var password: String = "nullie"
+        val password: String = JSONObject(Home.weerInfo).getString("password")
 
         fun getInstance() : Authenticator {
             return Authenticator()
         }
-
     }
 
     override fun onCreateView(
@@ -34,26 +33,6 @@ class Authenticator() : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentAuthenticatorBinding.inflate(inflater, container, false)
-
-        binding.authHintTv.visibility = View.GONE
-        binding.authPasswordEt.visibility = View.GONE
-        binding.authSpinnerPb.visibility = View.VISIBLE
-
-        Core.fetch(Core.WEER_INFO_URL, object : Callback {
-
-            override fun onFailure(request: Request?, e: IOException?) {
-                activity!!.finish()
-            }
-
-            override fun onResponse(response: Response?) {
-                val rawResponse = response!!.body().string()
-                password = JSONObject(rawResponse).getString("password")
-                activity!!.runOnUiThread {
-                    onPasswordFetched()
-                }
-            }
-
-        })
 
         binding.authPasswordEt.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -80,9 +59,4 @@ class Authenticator() : Fragment() {
         return binding.root
     }
 
-    fun onPasswordFetched() {
-        binding.authHintTv.visibility = View.VISIBLE
-        binding.authPasswordEt.visibility = View.VISIBLE
-        binding.authSpinnerPb.visibility = View.GONE
-    }
 }
