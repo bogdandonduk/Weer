@@ -6,15 +6,40 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/authHintTv"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline10pvAuth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
-        android:text="@string/authHint"
-        app:layout_constraintBottom_toTopOf="@+id/authPasswordEt"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintGuide_percent="0.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline90pvAuth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintGuide_percent="0.9"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/authHintTv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:fontFamily="@font/aristotelica"
+        android:gravity="center"
+        android:text="@string/authHint"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toTopOf="@+id/authPasswordEt"
+        app:layout_constraintEnd_toStartOf="@+id/guideline90pvAuth"
+        app:layout_constraintStart_toStartOf="@+id/guideline10pvAuth" />
 
     <EditText
         android:id="@+id/authPasswordEt"
@@ -22,6 +47,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/mockup_background"
         android:ems="10"
+        android:fontFamily="@font/aristotelica"
         android:gravity="center"
         android:inputType="textPassword"
         android:paddingTop="15dp"

@@ -43,13 +43,6 @@ class Player() : Fragment() {
 
         tale = JSONObject(Home.weerInfo).getJSONArray("tales").getJSONObject(Core.getPreference(Core.PK_LAST_TALE_INDEX, JSONObject(Home.weerInfo).getInt("lastTaleIndex")) as Int)
 
-        val intent = Intent(Home.context, PlayerService::class.java)
-        intent.putExtra("recUrl", tale.getString("recUrl"))
-
-        activity!!.startService(intent)
-
-        binding.playerController.
-
         binding.tale = TaleModel(tale.getString("name"), tale.getString("recUrl"))
 
         return binding.root
