@@ -41,7 +41,7 @@ class Player() : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_player, container, false)
 
-        tale = JSONObject(Home.weerInfo).getJSONArray("tales").getJSONObject(Core.getPreference(Core.PK_LAST_TALE_INDEX, JSONObject(Home.weerInfo).getInt("lastTaleIndex")) as Int)
+        tale = Home.weerInfo.getJSONArray("tales").getJSONObject(Core.getPreference(Core.PK_LAST_TALE_INDEX, Home.weerInfo.getInt("lastTaleIndex")) as Int)
 
         binding.tale = TaleModel(tale.getString("name"), tale.getString("recUrl"))
 

@@ -20,7 +20,6 @@ class TCAdapter(val tales: MutableList<TaleModel>) : RecyclerView.Adapter<TCAdap
         }
 
         override fun onClick(view: View?) {
-            Core.editPreference(Core.PK_LAST_TALE_INDEX, index)
             Core.loadFragment(Player.getInstance(), Home.binding.homeContentL.id, "null")
         }
     }

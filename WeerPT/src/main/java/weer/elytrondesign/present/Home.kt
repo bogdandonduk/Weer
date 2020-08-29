@@ -2,13 +2,14 @@ package weer.elytrondesign.present
 
 import android.content.Context
 import android.graphics.Color
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Toast
+import androidx.core.net.toUri
 import androidx.fragment.app.FragmentManager
+import com.google.firebase.storage.FirebaseStorage
 import com.squareup.okhttp.Callback
 import com.squareup.okhttp.Request
 import com.squareup.okhttp.Response
@@ -31,7 +32,7 @@ class Home : AppCompatActivity() {
         lateinit var context: Context
         lateinit var binding: ActivityHomeBinding
         lateinit var fm: FragmentManager
-        lateinit var weerInfo: String
+        lateinit var weerInfo: JSONObject
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,73 +55,88 @@ class Home : AppCompatActivity() {
             override fun onResponse(response: Response?) {
                 val cuResponse = response!!.body().string()
 
-                if(JSONObject(cuResponse!!).getString("cU").equals("y")) {
+                if (JSONObject(cuResponse!!).getString("cU").toLowerCase(Locale.ROOT).equals("y")) {
                     Core.fetch(Core.WEER_INFO_URL, object : Callback {
                         override fun onFailure(request: Request?, e: IOException?) {
 
                         }
 
                         override fun onResponse(response: Response?) {
-                            val weerInfoResponse = response!!.body().string()
+                            val weerInfoResponseUpdated = response!!.body().string()
 
-                            weerInfo = weerInfoResponse
+                            File(filesDir, Core.WEER_INFO_FILENAME).delete()
 
-                            val overwrittenWeerInfoFile = File(filesDir, Core.WEER_INFO_FILENAME)
-                                overwrittenWeerInfoFile.createNewFile()
+                            val owWeerInfoFile = File(filesDir, Core.WEER_INFO_FILENAME)
+                                owWeerInfoFile.createNewFile()
 
-                            val overwrittenWeerInfoOutputStream = FileOutputStream(overwrittenWeerInfoFile, true)
-                                overwrittenWeerInfoOutputStream.write(weerInfoResponse.toByteArray())
-                                overwrittenWeerInfoOutputStream.flush()
-                                overwrittenWeerInfoOutputStream.close()
+                            val owWeerInfoOutputStream = FileOutputStream(owWeerInfoFile, true)
+                                owWeerInfoOutputStream.write(weerInfoResponseUpdated.toByteArray())
+                                owWeerInfoOutputStream.flush()
+                                owWeerInfoOutputStream.close()
+
+                            weerInfo = JSONObject(weerInfoResponseUpdated)
+
+                            val updatedCUFile = File(filesDir, Core.WEER_CU_FILENAME)
+                                updatedCUFile.createNewFile()
+
+                            val updatedCUOutputStream = FileOutputStream(updatedCUFile, true)
+                                updatedCUOutputStream.write(JSONObject(cuResponse).put("cU", "n").toString().toByteArray())
+                                updatedCUOutputStream.flush()
+                                updatedCUOutputStream.close()
+
+                            FirebaseStorage.getInstance().reference.child(Core.WEER_CU_FILENAME).putFile(Uri.fromFile(updatedCUFile))
+
+                            updatedCUFile.delete()
 
                             runOnUiThread {
                                 onContentUpdatedFetched()
                             }
                         }
-
                     })
                 } else {
-                    if(!File(filesDir, Core.WEER_INFO_FILENAME).exists()) {
+                    if (!File(filesDir, Core.WEER_INFO_FILENAME).exists()) {
                         Core.fetch(Core.WEER_INFO_URL, object : Callback {
                             override fun onFailure(request: Request?, e: IOException?) {
 
                             }
 
                             override fun onResponse(response: Response?) {
-                                val weerInfoResponse: String = response!!.body().string()
-
-                                weerInfo = weerInfoResponse
+                                val weerInfoResponseFetched: String = response!!.body().string()
 
                                 val weerInfoFile = File(filesDir, Core.WEER_INFO_FILENAME)
                                     weerInfoFile.createNewFile()
 
                                 val weerInfoOutputStream = FileOutputStream(weerInfoFile, true)
-                                    weerInfoOutputStream.write(weerInfoResponse.toByteArray())
+                                    weerInfoOutputStream.write(weerInfoResponseFetched.toByteArray())
                                     weerInfoOutputStream.flush()
                                     weerInfoOutputStream.close()
+
+                                weerInfo = JSONObject(weerInfoResponseFetched)
+
+                                runOnUiThread {
+                                    onContentUpdatedFetched()
+                                }
                             }
 
                         })
 
                     } else {
-                        val readWeerInfoFile = File(filesDir, Core.WEER_INFO_FILENAME)
                         val builder = StringBuilder()
+                        val scanner = Scanner(File(filesDir, Core.WEER_INFO_FILENAME))
 
-                        val scanner = Scanner(readWeerInfoFile)
-
-                        while(scanner.hasNextLine()) {
+                        while (scanner.hasNextLine()) {
                             builder.append(scanner.nextLine())
                         }
 
-                        weerInfo = builder.toString()
+                        weerInfo = JSONObject(builder.toString())
+
+                        runOnUiThread {
+                            onContentUpdatedFetched()
+                        }
                     }
-
-
                 }
             }
-
         })
-
     }
 
     fun onContentUpdatedFetched() {

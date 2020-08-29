@@ -20,7 +20,7 @@ class TaleCollection() : Fragment() {
     companion object {
         lateinit var binding: FragmentTaleCollectionBinding
         lateinit var tales: MutableList<TaleModel>
-        val talesArray: JSONArray = JSONObject(Home.weerInfo).getJSONArray("tales")
+        val talesArray: JSONArray = Home.weerInfo.getJSONArray("tales")
 
         fun getInstance() : TaleCollection {
             return TaleCollection()
@@ -33,8 +33,6 @@ class TaleCollection() : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentTaleCollectionBinding.inflate(inflater, container, false)
-
-        Core.editPreference(Core.PK_LAST_TALE_INDEX, JSONObject(Home.weerInfo).getInt("lastTaleIndex"))
 
         tales = MutableList(talesArray.length()) {
             TaleModel(talesArray.getJSONObject(it).getString("name"), talesArray.getJSONObject(it).getString("recUrl"))
