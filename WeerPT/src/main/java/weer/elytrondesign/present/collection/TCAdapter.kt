@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import weer.elytrondesign.R
 import weer.elytrondesign.core.Core
+import weer.elytrondesign.core.TaleModel
 import weer.elytrondesign.databinding.HolderTaleCardBinding
 import weer.elytrondesign.present.Home
 import weer.elytrondesign.present.collection.player.Player

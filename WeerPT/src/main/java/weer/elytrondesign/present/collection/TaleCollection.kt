@@ -19,8 +19,6 @@ import java.io.IOException
 class TaleCollection() : Fragment() {
     companion object {
         lateinit var binding: FragmentTaleCollectionBinding
-        lateinit var tales: MutableList<TaleModel>
-        val talesArray: JSONArray = Home.weerInfo.getJSONArray("tales")
 
         fun getInstance() : TaleCollection {
             return TaleCollection()
@@ -33,13 +31,6 @@ class TaleCollection() : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentTaleCollectionBinding.inflate(inflater, container, false)
-
-        tales = MutableList(talesArray.length()) {
-            TaleModel(talesArray.getJSONObject(it).getString("name"), talesArray.getJSONObject(it).getString("recUrl"))
-        }
-
-        binding.collectionRV.adapter = TCAdapter(tales)
-        binding.collectionRV.layoutManager = LinearLayoutManager(Home.context)
 
         return binding.root
     }

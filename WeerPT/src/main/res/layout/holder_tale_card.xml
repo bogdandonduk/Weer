@@ -3,7 +3,7 @@
     <data>
         <variable
             name="tale"
-            type="weer.elytrondesign.present.collection.TaleModel" />
+            type="weer.elytrondesign.core.TaleModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
