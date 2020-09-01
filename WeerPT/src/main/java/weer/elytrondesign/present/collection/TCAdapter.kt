@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import weer.elytrondesign.R
+import weer.elytrondesign.core.AppLoader
 import weer.elytrondesign.core.Core
 import weer.elytrondesign.core.TaleModel
 import weer.elytrondesign.databinding.HolderTaleCardBinding
@@ -26,7 +27,7 @@ class TCAdapter(val tales: MutableList<TaleModel>) : RecyclerView.Adapter<TCAdap
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaleHolder {
-        return TaleHolder(DataBindingUtil.inflate(LayoutInflater.from(Home.context), R.layout.holder_tale_card, parent, false))
+        return TaleHolder(DataBindingUtil.inflate(LayoutInflater.from(AppLoader.context), R.layout.holder_tale_card, parent, false))
     }
 
     override fun onBindViewHolder(holder: TaleHolder, position: Int) {

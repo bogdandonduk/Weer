@@ -55,7 +55,7 @@ abstract class Core {
             OkHttpClient().newCall(Request.Builder().url(url).build()).enqueue(callback)
         }
 
-        fun writeFile(dir: File, name: String, content: String, append: Boolean = false) : File {
+        fun writeFile(dir: File, name: String, content: String, append: Boolean) : File {
             val file = File(dir, name)
                 file.createNewFile()
 

@@ -1,19 +1,14 @@
 package weer.elytrondesign.present.welcome
 
-import android.app.Activity
-import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.MimeTypeMap
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.Fragment
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
-import kotlinx.android.synthetic.main.activity_home.*
+import org.json.JSONObject
+import weer.elytrondesign.core.AppLoader
 import weer.elytrondesign.core.Core
 import weer.elytrondesign.databinding.FragmentWelcomeBinding
 import weer.elytrondesign.databinding.FragmentWelcomePageBinding
@@ -38,6 +33,17 @@ class Welcome() : Fragment() {
         binding = FragmentWelcomeBinding.inflate(inflater, container, false)
 
         binding.welcomeStartBtn.setOnClickListener {
+            val authRecords = AppLoader.aDArray
+            val newWelcomedRecord = JSONObject(AppLoader.authDevicesList[0])
+            newWelcomedRecord.put(Core.FB_INFO_PN_AD_ID, AppLoader.currentAndroidInstallId)
+            newWelcomedRecord.put(Core.FB_INFO_PN_AD_WELCOMED, true)
+
+            authRecords.put(AppLoader.currentAuthDeviceIndex, newWelcomedRecord)
+
+            val newInfo = JSONObject(AppLoader.info).put(Core.FB_INFO_PN_AD, authRecords)
+
+            FirebaseStorage.getInstance().reference.child(Core.FB_INFO_FN).putFile(Uri.fromFile(Core.writeFile(activity!!.filesDir, Core.FB_INFO_FN, newInfo.toString(), false)))
+
             Core.loadFragment(TaleCollection.getInstance(), Home.binding.homeContentL.id)
         }
 

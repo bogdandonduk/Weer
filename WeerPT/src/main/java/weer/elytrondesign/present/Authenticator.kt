@@ -2,19 +2,21 @@ package weer.elytrondesign.present
 
 import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.firebase.storage.FirebaseStorage
+import org.json.JSONObject
+import weer.elytrondesign.core.AppLoader
 import weer.elytrondesign.core.Core
 import weer.elytrondesign.databinding.FragmentAuthenticatorBinding
 import weer.elytrondesign.present.collection.TaleCollection
 import weer.elytrondesign.present.welcome.Welcome
-import java.io.File
-import java.io.FileOutputStream
 
 class Authenticator() : Fragment() {
 
@@ -43,21 +45,26 @@ class Authenticator() : Fragment() {
             }
 
             override fun afterTextChanged(p0: Editable?) {
-                if (binding.authPasswordEt.text.toString() == Home.password) {
-                    val file = File(activity!!.filesDir, "yes.json")
-                        file.createNewFile()
 
-                    val fOs = FileOutputStream(file, false)
-                        fOs.write("YEAH".toByteArray())
-                        fOs.flush()
-                        fOs.close()
+                if (p0.toString() == AppLoader.password) {
+                    val authRecords = AppLoader.aDArray
+                    val newAuthRecord = JSONObject(AppLoader.authDevicesList[0])
+                        newAuthRecord.put(Core.FB_INFO_PN_AD_ID, AppLoader.currentAndroidInstallId)
+                        newAuthRecord.put(Core.FB_INFO_PN_AD_WELCOMED, false)
 
-                    FirebaseStorage.getInstance().reference.child("yes.json").putFile(Uri.fromFile(file))
+                    authRecords.put(authRecords.length(), newAuthRecord)
 
-                    if(!Home.isWelcomed) {
+                    val newInfo = JSONObject(AppLoader.info).put(Core.FB_INFO_PN_AD, authRecords)
+
+                    FirebaseStorage.getInstance().reference.child(Core.FB_INFO_FN).putFile(Uri.fromFile(Core.writeFile(activity!!.filesDir, Core.FB_INFO_FN, newInfo.toString(), false)))
+
+                    if (!AppLoader.isWelcomed) {
                         Core.loadFragment(Welcome.getInstance(), Home.binding.homeContentL.id)
                     } else {
-                        Core.loadFragment(TaleCollection.getInstance(), Home.binding.homeContentL.id)
+                        Core.loadFragment(
+                            TaleCollection.getInstance(),
+                            Home.binding.homeContentL.id
+                        )
                     }
                 }
             }
