@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:opacity="opaque">
 
-    <item android:drawable="@android:color/transparent"/>
+    <item android:drawable="@drawable/bg_loader_color" />
     <item>
         <bitmap
             android:gravity="center"

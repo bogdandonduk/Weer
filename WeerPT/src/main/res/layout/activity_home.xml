@@ -5,7 +5,6 @@
     android:id="@+id/homeCoverRl"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/init_wallpaper4"
     tools:context=".present.Home">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,31 +16,61 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/homeTb"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/homeTbBgHolder"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:alpha="0.8"
-            android:background="@drawable/tb_bg"
-            android:foreground="@drawable/home_tb_fg"
-            android:foregroundGravity="center"
-            android:gravity="center"
+            android:layout_marginStart="2dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginRight="2dp"
+            android:alpha="0.7"
+            android:background="@drawable/block_bg"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/homeTb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginRight="2dp"
+            android:background="@android:color/transparent"
+            android:minHeight="?attr/actionBarSize"
+            android:padding="7dp"
+            android:theme="?attr/actionBarTheme"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/homeTbLogoIv"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/tb_logo" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/homeContentL"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:alpha="0.3"
-            android:background="@drawable/tb_bg"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/homeTb">
+            app:layout_constraintTop_toBottomOf="@+id/homeTbBgHolder">
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

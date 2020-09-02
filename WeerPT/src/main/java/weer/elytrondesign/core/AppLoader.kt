@@ -2,12 +2,13 @@ package weer.elytrondesign.core
 
 import android.app.Application
 import android.content.Context
-import android.content.res.Configuration
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
+import android.os.Looper
 import android.os.Message
 import android.provider.Settings
 import android.util.Log
+import android.widget.Toast
 import com.squareup.okhttp.Callback
 import com.squareup.okhttp.Request
 import com.squareup.okhttp.Response
@@ -16,12 +17,13 @@ import org.json.JSONObject
 import weer.elytrondesign.core.java.WallpaperManager
 import weer.elytrondesign.present.Home
 import java.io.IOException
+import java.util.ArrayList
 
 class AppLoader() : Application() {
 
     companion object {
         lateinit var context: Context
-        lateinit var starterCallback: Callback
+        lateinit var infoCallback: Callback
         lateinit var info: String
         lateinit var password: String
         lateinit var aDArray: JSONArray
@@ -32,6 +34,10 @@ class AppLoader() : Application() {
         var isAuth: Boolean = false
         var isWelcomed: Boolean = false
         var connectionRetries = 0
+        lateinit var currentHomeCoverBg: Drawable
+        lateinit var currentHomeRlBg: Drawable
+        lateinit var homeWallpaperThread: WallpaperThread
+        lateinit var last5homeRlWallpapers: ArrayList<Int>
     }
 
     override fun onCreate() {
@@ -39,16 +45,25 @@ class AppLoader() : Application() {
 
         context = applicationContext
 
-        fetchInfo()
+        currentHomeCoverBg = resources.getDrawable(WallpaperManager.pickRandomInit())
+        currentHomeRlBg = currentHomeCoverBg
+
+        last5homeRlWallpapers = ArrayList(5)
+
+        info = "{\"pW\":\"Oslo\",\"aD\":[{\"id\":\"542fbda8dba488d2\",\"w\":false},{\"id\":\"542fbda8dba488d0\",\"w\":false},{\"id\":\"4d69698161f3cb58\",\"w\":false}]}"
+
+        initProps()
+        notifyHome()
     }
 
     fun fetchInfo() {
-        starterCallback = object : Callback {
+        infoCallback = object : Callback {
             override fun onFailure(request: Request?, e: IOException?) {
                 connectionRetries++
 
                 if(connectionRetries >= 3) {
-                    Log.d("TAG", "onFailure: connection down")
+                    Looper.prepare()
+                    Toast.makeText(context, "Connection down", Toast.LENGTH_SHORT).show()
                 } else {
                     Core.fetch(Core.FB_INFO_URL, this)
                 }
@@ -57,22 +72,14 @@ class AppLoader() : Application() {
             override fun onResponse(response: Response?) {
                 info = response!!.body().string()
 
+                Log.d("TAG", "onResponse: $response")
+
                 initProps()
                 notifyHome()
             }
         }
 
-        Core.fetch(Core.FB_INFO_URL, starterCallback)
-    }
-
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-
-        if(info == null) {
-            fetchInfo()
-        } else {
-            notifyHome()
-        }
+        Core.fetch(Core.FB_INFO_URL, infoCallback)
     }
 
     fun initProps() {
@@ -104,8 +111,12 @@ class AppLoader() : Application() {
 
     fun notifyHome() {
         val msg = Message.obtain()
-            msg.obj = WallpaperManager.pickRandomInit()
+            msg.obj = "Cover"
+
         Home.handler.sendMessage(msg)
+
+//        homeWallpaperThread = WallpaperThread()
+//        homeWallpaperThread.start()
     }
 
 }

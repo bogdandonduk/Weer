@@ -6,56 +6,72 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline10pvAuth"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintGuide_percent="0.1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline90pvAuth"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintGuide_percent="0.9"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/authHintTv"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/authenticatorContentBgHolder"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:fontFamily="@font/aristotelica"
-        android:gravity="center"
-        android:text="@string/authHint"
-        android:textSize="22sp"
-        app:layout_constraintBottom_toTopOf="@+id/authPasswordEt"
-        app:layout_constraintEnd_toStartOf="@+id/guideline90pvAuth"
-        app:layout_constraintStart_toStartOf="@+id/guideline10pvAuth" />
+        android:layout_height="0dp"
+        android:alpha="0.7"
+        android:background="@drawable/block_bg"
+        android:paddingLeft="30dp"
+        android:paddingTop="100dp"
+        android:paddingRight="30dp"
+        android:paddingBottom="30dp"
+        app:layout_constraintBottom_toBottomOf="@+id/authenticatorContentL"
+        app:layout_constraintEnd_toEndOf="@+id/authenticatorContentL"
+        app:layout_constraintStart_toStartOf="@+id/authenticatorContentL"
+        app:layout_constraintTop_toTopOf="@+id/authenticatorContentL" >
 
-    <EditText
-        android:id="@+id/authPasswordEt"
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/authenticatorContentL"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/mockup_background"
-        android:ems="10"
-        android:fontFamily="@font/aristotelica"
-        android:gravity="center"
-        android:inputType="textPassword"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp"
-        android:textColor="@android:color/black"
+        android:background="@android:color/transparent"
+        android:paddingBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/authHintTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/aristotelica"
+            android:gravity="center"
+            android:text="@string/authHint"
+            android:textColor="@android:color/white"
+            android:textSize="22sp"
+            app:layout_constraintBottom_toTopOf="@+id/authPasswordEt"
+            app:layout_constraintEnd_toEndOf="@+id/authPasswordEt"
+            app:layout_constraintStart_toStartOf="@+id/authPasswordEt"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/authPasswordEt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/mockup_background"
+            android:ems="10"
+            android:fontFamily="@font/aristotelica"
+            android:gravity="center"
+            android:inputType="text"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

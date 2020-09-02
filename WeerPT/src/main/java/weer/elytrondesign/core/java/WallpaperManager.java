@@ -1,5 +1,6 @@
 package weer.elytrondesign.core.java;
 
+import java.util.HashMap;
 import java.util.Random;
 
 import weer.elytrondesign.R;
@@ -69,126 +70,164 @@ public class WallpaperManager {
         return res;
     }
 
-    public static String pickRandomUrl() {
-        String url = URL_0;
+    public static Object[] pickRandomUrlPair() {
+        Object[] pair = new Object[] {0, URL_0};
 
         switch(new Random().nextInt(38)) {
             case 0:
-                url = URL_0;
+                pair[0] = 0;
+                pair[1] = URL_0;
                 break;
             case 1:
-                url = URL_1;
+                pair[0] = 1;
+                pair[1] = URL_1;
                 break;
             case 2:
-                url = URL_2;
+                pair[0] = 2;
+                pair[1] = URL_2;
                 break;
             case 3:
-                url = URL_3;
+                pair[0] = 3;
+                pair[1] = URL_3;
                 break;
             case 4:
-                url = URL_4;
+                pair[0] = 4;
+                pair[1] = URL_4;
                 break;
             case 5:
-                url = URL_5;
+                pair[0] = 5;
+                pair[1] = URL_5;
                 break;
             case 6:
-                url = URL_6;
+                pair[0] = 6;
+                pair[1] = URL_6;
                 break;
             case 7:
-                url = URL_7;
+                pair[0] = 7;
+                pair[1] = URL_7;
                 break;
             case 8:
-                url = URL_8;
+                pair[0] = 8;
+                pair[1] = URL_8;
                 break;
             case 9:
-                url = URL_9;
+                pair[0] = 9;
+                pair[1] = URL_9;
                 break;
             case 10:
-                url = URL_10;
+                pair[0] = 10;
+                pair[1] = URL_10;
                 break;
             case 11:
-                url = URL_11;
+                pair[0] = 11;
+                pair[1] = URL_11;
                 break;
             case 12:
-                url = URL_12;
+                pair[0] = 12;
+                pair[1] = URL_12;
                 break;
             case 13:
-                url = URL_13;
+                pair[0] = 13;
+                pair[1] = URL_13;
                 break;
             case 14:
-                url = URL_14;
+                pair[0] = 14;
+                pair[1] = URL_14;
                 break;
             case 15:
-                url = URL_15;
+                pair[0] = 15;
+                pair[1] = URL_15;
                 break;
             case 16:
-                url = URL_16;
+                pair[0] = 1;
+                pair[1] = URL_16;
                 break;
             case 17:
-                url = URL_17;
+                pair[0] = 17;
+                pair[1] = URL_17;
                 break;
             case 18:
-                url = URL_18;
+                pair[0] = 18;
+                pair[1] = URL_18;
                 break;
             case 19:
-                url = URL_19;
+                pair[0] = 19;
+                pair[1] = URL_19;
                 break;
             case 20:
-                url = URL_20;
+                pair[0] = 20;
+                pair[1] = URL_20;
                 break;
             case 21:
-                url = URL_21;
+                pair[0] = 21;
+                pair[1] = URL_21;
                 break;
             case 22:
-                url = URL_22;
+                pair[0] = 22;
+                pair[1] = URL_22;
                 break;
             case 23:
-                url = URL_23;
+                pair[0] = 23;
+                pair[1] = URL_23;
                 break;
             case 24:
-                url = URL_24;
+                pair[0] = 24;
+                pair[1] = URL_24;
                 break;
             case 25:
-                url = URL_25;
+                pair[0] = 25;
+                pair[1] = URL_25;
                 break;
             case 26:
-                url = URL_26;
+                pair[0] = 26;
+                pair[1] = URL_26;
                 break;
             case 27:
-                url = URL_27;
+                pair[0] = 27;
+                pair[1] = URL_27;
                 break;
             case 28:
-                url = URL_28;
+                pair[0] = 28;
+                pair[1] = URL_28;
                 break;
             case 29:
-                url = URL_29;
+                pair[0] = 29;
+                pair[1] = URL_29;
                 break;
             case 30:
-                url = URL_30;
+                pair[0] = 30;
+                pair[1] = URL_30;
                 break;
             case 31:
-                url = URL_31;
+                pair[0] = 31;
+                pair[1] = URL_31;
                 break;
             case 32:
-                url = URL_32;
+                pair[0] = 32;
+                pair[1] = URL_32;
                 break;
             case 33:
-                url = URL_33;
+                pair[0] = 33;
+                pair[1] = URL_33;
                 break;
             case 34:
-                url = URL_34;
+                pair[0] = 34;
+                pair[1] = URL_34;
                 break;
             case 35:
-                url = URL_35;
+                pair[0] = 35;
+                pair[1] = URL_35;
                 break;
             case 36:
-                url = URL_36;
+                pair[0] = 36;
+                pair[1] = URL_36;
                 break;
             case 37:
-                url = URL_37;
+                pair[0] = 37;
+                pair[1] = URL_37;
                 break;
         }
 
-        return url;
+        return pair;
     }
 }
