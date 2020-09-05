@@ -2,12 +2,15 @@ package weer.elytrondesign.core
 
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import android.os.Message
 import com.squareup.okhttp.Callback
 import com.squareup.okhttp.Request
 import com.squareup.okhttp.Response
 import weer.elytrondesign.core.java.WallpaperManager
 import weer.elytrondesign.present.Home
+import java.io.File
+import java.io.FileInputStream
 import java.io.IOException
 
 class WallpaperThread() : Thread() {
@@ -20,33 +23,51 @@ class WallpaperThread() : Thread() {
                 sleep(1 * 1000)
             }
 
-            Core.fetch(
-                pickNewUrl(),
-                object : Callback {
-                    override fun onFailure(request: Request?, e: IOException?) {
+            val uniqueUrlPair = pickUniqueUrlPair()
+            val downloadedWallpaper = File(AppLoader.appFilesDir, uniqueUrlPair[0].toString() + ".jpg")
 
-                    }
+            if (downloadedWallpaper.exists()) {
+                val wallpaperBa = ByteArray(downloadedWallpaper.length().toInt())
+                val fis = FileInputStream(downloadedWallpaper)
+                    fis.read(wallpaperBa)
+                    fis.close()
 
-                    override fun onResponse(response: Response?) {
-                        val wallpaperResponse = response!!.body().bytes()
-                        val msg = Message.obtain()
-                            msg.obj = "Root"
+                AppLoader.currentHomeRlBg = BitmapDrawable(
+                    BitmapFactory.decodeByteArray(wallpaperBa, 0, wallpaperBa.size)
+                )
 
-                        AppLoader.currentHomeRlBg = BitmapDrawable(
-                            BitmapFactory.decodeByteArray(
-                                wallpaperResponse,
-                                0,
-                                wallpaperResponse.size
+            } else {
+                Core.fetch(
+                    uniqueUrlPair[1].toString(),
+                    object : Callback {
+                        override fun onFailure(request: Request?, e: IOException?) {
+
+                        }
+
+                        override fun onResponse(response: Response?) {
+                            val wallpaperResponse = response!!.body().bytes()
+
+                            Core.writeFile(AppLoader.appFilesDir, uniqueUrlPair[0].toString() + ".jpg", wallpaperResponse, false)
+
+                            AppLoader.currentHomeRlBg = BitmapDrawable(
+                                BitmapFactory.decodeByteArray(
+                                    wallpaperResponse,
+                                    0,
+                                    wallpaperResponse.size
+                                )
                             )
-                        )
 
-                        Home.handler.sendMessage(msg)
-                    }
-                })
+                        }
+                    })
+            }
+
+            val msg = Message.obtain()
+                msg.obj = "Root"
+            Home.handler.sendMessage(msg)
         }
     }
 
-    fun pickNewUrl(): String {
+    fun pickUniqueUrlPair(): Array<Any> {
         var urlPair = WallpaperManager.pickRandomUrlPair()
 
         while(!checkUrlUniquenessAmongLast5(urlPair[0] as Int)) {
@@ -55,7 +76,7 @@ class WallpaperThread() : Thread() {
 
         addUrlIndexToLast5Stack(urlPair[0] as Int)
 
-        return urlPair[1].toString()
+        return urlPair
     }
 
     fun addUrlIndexToLast5Stack(index: Int) {

@@ -1,12 +1,9 @@
 package weer.elytrondesign.present
 
-import android.animation.ObjectAnimator
 import android.net.Uri
 import android.os.Bundle
-import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,19 +35,15 @@ class Authenticator() : Fragment() {
         binding = FragmentAuthenticatorBinding.inflate(inflater, container, false)
 
         binding.authenticatorContentBgHolder.alpha = 0f
-        binding.authenticatorContentBgHolder.scaleX = 1.01f
-        binding.authenticatorContentBgHolder.scaleY = 1.01f
+        binding.authenticatorContentBgHolder.translationX = 30f
 
         binding.authenticatorContentL.alpha = 0f
-        binding.authenticatorContentL.scaleX = 1.01f
-        binding.authenticatorContentL.scaleY = 1.01f
+        binding.authenticatorContentL.translationX = 30f
 
-        binding.authenticatorContentBgHolder.animate().alpha(0.7f).setDuration(200).setStartDelay(100).start()
-        binding.authenticatorContentBgHolder.animate().scaleX(1f).setDuration(200).setStartDelay(100).start()
-        binding.authenticatorContentBgHolder.animate().scaleY(1f).setDuration(200).setStartDelay(100).start()
-        binding.authenticatorContentL.animate().alpha(1f).setDuration(200).setStartDelay(100).start()
-        binding.authenticatorContentL.animate().scaleX(1f).setDuration(200).setStartDelay(100).start()
-        binding.authenticatorContentL.animate().scaleX(1f).setDuration(200).setStartDelay(100).start()
+        binding.authenticatorContentBgHolder.animate().alpha(0.8f).setDuration(1000).start()
+        binding.authenticatorContentBgHolder.animate().translationX(0f).setDuration(1000).start()
+        binding.authenticatorContentL.animate().alpha(1f).setDuration(1000).start()
+        binding.authenticatorContentL.animate().translationX(0f).setDuration(1000).start()
 
         binding.authPasswordEt.requestFocus()
         binding.authPasswordEt.isSelected = true
@@ -67,12 +60,10 @@ class Authenticator() : Fragment() {
             override fun afterTextChanged(p0: Editable?) {
 
                 if (p0.toString() == AppLoader.password) {
-                    binding.authenticatorContentBgHolder.animate().alpha(0f).setDuration(200).setStartDelay(100).start()
-                    binding.authenticatorContentBgHolder.animate().scaleX(1.01f).setDuration(200).setStartDelay(100).start()
-                    binding.authenticatorContentBgHolder.animate().scaleY(1.01f).setDuration(200).setStartDelay(100).start()
-                    binding.authenticatorContentL.animate().alpha(0f).setDuration(200).setStartDelay(100).start()
-                    binding.authenticatorContentL.animate().scaleX(1.01f).setDuration(200).setStartDelay(100).start()
-                    binding.authenticatorContentL.animate().scaleX(1.01f).setDuration(200).setStartDelay(100).start()
+                    binding.authenticatorContentBgHolder.animate().alpha(0f).setDuration(500).setStartDelay(300).start()
+                    binding.authenticatorContentBgHolder.animate().translationX(-30f).setDuration(500).setStartDelay(300).start()
+                    binding.authenticatorContentL.animate().alpha(0f).setDuration(500).setStartDelay(300).start()
+                    binding.authenticatorContentL.animate().translationX(-30f).setDuration(500).setStartDelay(300).start()
 
                     val authRecords = AppLoader.aDArray
                     val newAuthRecord = JSONObject(AppLoader.authDevicesList[0])
@@ -83,9 +74,13 @@ class Authenticator() : Fragment() {
 
                     val newInfo = JSONObject(AppLoader.info).put(Core.FB_INFO_PN_AD, authRecords)
 
-                    FirebaseStorage.getInstance().reference.child(Core.FB_INFO_FN).putFile(Uri.fromFile(Core.writeFile(activity!!.filesDir, Core.FB_INFO_FN, newInfo.toString(), false)))
+                    val newInfoFile = Core.writeFile(activity!!.filesDir, Core.FB_CACHED_INFO_FN, newInfo.toString().toByteArray(), false)
+                    FirebaseStorage.getInstance().reference.child(Core.FB_INFO_FN).putFile(Uri.fromFile(newInfoFile))
 
-                    ArcTools.runPostDelayed(300) {
+                    AppLoader.info = newInfo.toString()
+                    AppLoader.initProps()
+
+                    ArcTools.runPostDelayed(800) {
                         if (!AppLoader.isWelcomed) {
                             Core.loadFragment(Welcome.getInstance(), Home.binding.homeContentL.id)
                         } else {

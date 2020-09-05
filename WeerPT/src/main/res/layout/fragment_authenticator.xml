@@ -10,7 +10,7 @@
         android:id="@+id/authenticatorContentBgHolder"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:alpha="0.7"
+        android:alpha="0.8"
         android:background="@drawable/block_bg"
         android:paddingLeft="30dp"
         android:paddingTop="100dp"
@@ -19,7 +19,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/authenticatorContentL"
         app:layout_constraintEnd_toEndOf="@+id/authenticatorContentL"
         app:layout_constraintStart_toStartOf="@+id/authenticatorContentL"
-        app:layout_constraintTop_toTopOf="@+id/authenticatorContentL" >
+        app:layout_constraintTop_toTopOf="@+id/authenticatorContentL">
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

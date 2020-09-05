@@ -1,6 +1,5 @@
 package weer.elytrondesign.core.java;
 
-import java.util.HashMap;
 import java.util.Random;
 
 import weer.elytrondesign.R;

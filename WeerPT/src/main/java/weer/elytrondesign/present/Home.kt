@@ -6,7 +6,6 @@ import android.os.Handler
 import android.os.Message
 import android.view.LayoutInflater
 import android.view.View
-import androidx.appcompat.app.ActionBar
 import androidx.fragment.app.FragmentManager
 import weer.elytrondesign.core.AppLoader
 import weer.elytrondesign.core.Core
@@ -18,7 +17,7 @@ class Home : AppCompatActivity() {
 
     companion object {
         lateinit var binding: ActivityHomeBinding
-        lateinit var toolbar: ActionBar
+        var isFirstLoaded: Boolean = false
         lateinit var fm: FragmentManager
         var handler: HomeHandler = HomeHandler()
 
@@ -34,25 +33,35 @@ class Home : AppCompatActivity() {
             }
         }
 
+        fun introTbAnim() {
+            binding.homeTb.alpha = 0f
+            binding.homeTb.translationY = -30f
+            binding.homeTb.animate().alpha(1f).setDuration(1000).start()
+            binding.homeTb.animate().translationY(0f).setDuration(1000).start()
+
+        }
+
+        fun runOnMainThread(runnable: Runnable) {
+            runnable.run()
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
 
         binding = ActivityHomeBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
 
         fm = supportFragmentManager
 
-        binding.homeCoverRl.visibility = View.GONE
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-
-        binding.homeCoverRl.visibility = View.VISIBLE
-        binding.homeCoverRl.background = AppLoader.currentHomeCoverBg
-        binding.homeRl.background = AppLoader.currentHomeRlBg
+        if(savedInstanceState != null && isFirstLoaded) {
+            binding.homeCoverRl.background = AppLoader.currentHomeCoverBg
+            binding.homeRl.background = AppLoader.currentHomeRlBg
+        } else {
+            binding.homeCoverRl.visibility = View.GONE
+            binding.homeCoverRl.alpha = 0f
+        }
     }
 
     class HomeHandler : Handler() {
@@ -60,10 +69,14 @@ class Home : AppCompatActivity() {
             if(msg.obj as String == "Cover") {
                 binding.homeCoverRl.visibility = View.VISIBLE
                 binding.homeCoverRl.background = AppLoader.currentHomeCoverBg
-
+                binding.homeCoverRl.animate().alpha(1f).setStartDelay(500).start()
+                introTbAnim()
+                isFirstLoaded = true
                 onInfoFetched()
-            } else {
+            } else if(msg.obj as String == "Root"){
                 binding.homeRl.background = AppLoader.currentHomeRlBg
+            } else {
+                runOnMainThread(msg.obj as Runnable)
             }
         }
     }
