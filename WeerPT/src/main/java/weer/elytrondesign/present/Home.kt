@@ -56,8 +56,8 @@ class Home : AppCompatActivity() {
         fm = supportFragmentManager
 
         if(savedInstanceState != null && isFirstLoaded) {
-            binding.homeCoverRl.background = AppLoader.currentHomeCoverBg
-            binding.homeRl.background = AppLoader.currentHomeRlBg
+            binding.homeCoverRl.background = AppLoader.curHomeCoverBg
+            binding.homeRl.background = AppLoader.curHomeRlBg
         } else {
             binding.homeCoverRl.visibility = View.GONE
             binding.homeCoverRl.alpha = 0f
@@ -68,13 +68,13 @@ class Home : AppCompatActivity() {
         override fun handleMessage(msg: Message) {
             if(msg.obj as String == "Cover") {
                 binding.homeCoverRl.visibility = View.VISIBLE
-                binding.homeCoverRl.background = AppLoader.currentHomeCoverBg
+                binding.homeCoverRl.background = AppLoader.curHomeCoverBg
                 binding.homeCoverRl.animate().alpha(1f).setStartDelay(500).start()
                 introTbAnim()
                 isFirstLoaded = true
                 onInfoFetched()
             } else if(msg.obj as String == "Root"){
-                binding.homeRl.background = AppLoader.currentHomeRlBg
+                binding.homeRl.background = AppLoader.curHomeRlBg
             } else {
                 runOnMainThread(msg.obj as Runnable)
             }

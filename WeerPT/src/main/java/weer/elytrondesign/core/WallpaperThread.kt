@@ -2,12 +2,10 @@ package weer.elytrondesign.core
 
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
-import android.net.Uri
 import android.os.Message
 import com.squareup.okhttp.Callback
 import com.squareup.okhttp.Request
 import com.squareup.okhttp.Response
-import weer.elytrondesign.core.java.WallpaperManager
 import weer.elytrondesign.present.Home
 import java.io.File
 import java.io.FileInputStream
@@ -32,7 +30,7 @@ class WallpaperThread() : Thread() {
                     fis.read(wallpaperBa)
                     fis.close()
 
-                AppLoader.currentHomeRlBg = BitmapDrawable(
+                AppLoader.curHomeRlBg = BitmapDrawable(
                     BitmapFactory.decodeByteArray(wallpaperBa, 0, wallpaperBa.size)
                 )
 
@@ -49,7 +47,7 @@ class WallpaperThread() : Thread() {
 
                             Core.writeFile(AppLoader.appFilesDir, uniqueUrlPair[0].toString() + ".jpg", wallpaperResponse, false)
 
-                            AppLoader.currentHomeRlBg = BitmapDrawable(
+                            AppLoader.curHomeRlBg = BitmapDrawable(
                                 BitmapFactory.decodeByteArray(
                                     wallpaperResponse,
                                     0,
@@ -80,19 +78,19 @@ class WallpaperThread() : Thread() {
     }
 
     fun addUrlIndexToLast5Stack(index: Int) {
-        if(AppLoader.last5homeRlWallpapers.size >= 6) {
-            AppLoader.last5homeRlWallpapers.remove(0)
-            AppLoader.last5homeRlWallpapers[0] = AppLoader.last5homeRlWallpapers[1]
-            AppLoader.last5homeRlWallpapers[1] = AppLoader.last5homeRlWallpapers[2]
-            AppLoader.last5homeRlWallpapers[2] = AppLoader.last5homeRlWallpapers[3]
-            AppLoader.last5homeRlWallpapers[3] = AppLoader.last5homeRlWallpapers[4]
-            AppLoader.last5homeRlWallpapers[4] = index
+        if(AppLoader.last5homeRlWPs.size >= 6) {
+            AppLoader.last5homeRlWPs.remove(0)
+            AppLoader.last5homeRlWPs[0] = AppLoader.last5homeRlWPs[1]
+            AppLoader.last5homeRlWPs[1] = AppLoader.last5homeRlWPs[2]
+            AppLoader.last5homeRlWPs[2] = AppLoader.last5homeRlWPs[3]
+            AppLoader.last5homeRlWPs[3] = AppLoader.last5homeRlWPs[4]
+            AppLoader.last5homeRlWPs[4] = index
         } else {
-            AppLoader.last5homeRlWallpapers.add(index)
+            AppLoader.last5homeRlWPs.add(index)
         }
     }
 
     fun checkUrlUniquenessAmongLast5(index: Int): Boolean {
-        return !AppLoader.last5homeRlWallpapers.contains(index)
+        return !AppLoader.last5homeRlWPs.contains(index)
     }
 }

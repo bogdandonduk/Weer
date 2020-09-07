@@ -1,24 +1,14 @@
 package weer.elytrondesign.core
 
-import android.app.Activity
-import android.content.Context
-import android.content.SharedPreferences
-import android.content.res.Configuration
-import android.net.Uri
+import android.os.Handler
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.OnSuccessListener
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.UploadTask
 import com.squareup.okhttp.Callback
 import com.squareup.okhttp.OkHttpClient
 import com.squareup.okhttp.Request
 import weer.elytrondesign.present.Home
 import java.io.File
-import java.io.FileInputStream
 import java.io.FileOutputStream
-import java.lang.IllegalArgumentException
 import java.util.*
 
 abstract class Core {
@@ -85,6 +75,10 @@ abstract class Core {
             }
 
             return builder.toString()
+        }
+
+        fun runDelayed(delay: Int, runnable: Runnable) {
+            Handler().postDelayed(runnable, delay.toLong())
         }
     }
 }

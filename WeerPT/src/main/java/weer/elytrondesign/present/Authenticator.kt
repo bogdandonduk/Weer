@@ -12,7 +12,6 @@ import com.google.firebase.storage.FirebaseStorage
 import org.json.JSONObject
 import weer.elytrondesign.core.AppLoader
 import weer.elytrondesign.core.Core
-import weer.elytrondesign.core.java.ArcTools
 import weer.elytrondesign.databinding.FragmentAuthenticatorBinding
 import weer.elytrondesign.present.collection.TaleCollection
 import weer.elytrondesign.present.welcome.Welcome
@@ -66,8 +65,8 @@ class Authenticator() : Fragment() {
                     binding.authenticatorContentL.animate().translationX(-30f).setDuration(500).setStartDelay(300).start()
 
                     val authRecords = AppLoader.aDArray
-                    val newAuthRecord = JSONObject(AppLoader.authDevicesList[0])
-                        newAuthRecord.put(Core.FB_INFO_PN_AD_ID, AppLoader.currentAndroidInstallId)
+                    val newAuthRecord = JSONObject(AppLoader.aDList[0])
+                        newAuthRecord.put(Core.FB_INFO_PN_AD_ID, AppLoader.curAndroidInstallId)
                         newAuthRecord.put(Core.FB_INFO_PN_AD_WELCOMED, false)
 
                     authRecords.put(authRecords.length(), newAuthRecord)
@@ -80,7 +79,7 @@ class Authenticator() : Fragment() {
                     AppLoader.info = newInfo.toString()
                     AppLoader.initProps()
 
-                    ArcTools.runPostDelayed(800) {
+                    Core.runDelayed(800) {
                         if (!AppLoader.isWelcomed) {
                             Core.loadFragment(Welcome.getInstance(), Home.binding.homeContentL.id)
                         } else {

@@ -1,12 +1,10 @@
 package weer.elytrondesign.present.welcome
 
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentStatePagerAdapter
@@ -15,7 +13,6 @@ import org.json.JSONObject
 import weer.elytrondesign.R
 import weer.elytrondesign.core.AppLoader
 import weer.elytrondesign.core.Core
-import weer.elytrondesign.core.java.ArcTools
 import weer.elytrondesign.databinding.FragmentWelcomeBinding
 import weer.elytrondesign.databinding.FragmentWelcomePageBinding
 import weer.elytrondesign.present.Home
@@ -171,11 +168,11 @@ class Welcome() : DialogFragment(), View.OnClickListener {
         binding.welcomeContentL.animate().translationX(0f).setDuration(500).setStartDelay(1100).start()
 
         val authRecords = AppLoader.aDArray
-        val newWelcomedRecord = JSONObject(AppLoader.authDevicesList[0])
-            newWelcomedRecord.put(Core.FB_INFO_PN_AD_ID, AppLoader.currentAndroidInstallId)
+        val newWelcomedRecord = JSONObject(AppLoader.aDList[0])
+            newWelcomedRecord.put(Core.FB_INFO_PN_AD_ID, AppLoader.curAndroidInstallId)
             newWelcomedRecord.put(Core.FB_INFO_PN_AD_WELCOMED, true)
 
-        authRecords.put(AppLoader.currentAuthDeviceIndex, newWelcomedRecord)
+        authRecords.put(AppLoader.curADIndex, newWelcomedRecord)
 
         val newInfo = JSONObject(AppLoader.info).put(Core.FB_INFO_PN_AD, authRecords)
 
@@ -185,7 +182,7 @@ class Welcome() : DialogFragment(), View.OnClickListener {
         AppLoader.info = newInfo.toString()
         AppLoader.initProps()
 
-        ArcTools.runPostDelayed(1800) {
+        Core.runDelayed(1800) {
             Core.loadFragment(TaleCollection.getInstance(), Home.binding.homeContentL.id)
         }
     }

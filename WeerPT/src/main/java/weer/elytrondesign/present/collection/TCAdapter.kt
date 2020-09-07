@@ -1,6 +1,7 @@
 package weer.elytrondesign.present.collection
 
 import android.app.ActionBar
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -52,7 +53,14 @@ class TCAdapter() : RecyclerView.Adapter<TCAdapter.TaleHolder>() {
             holder.binding.holderTaleCardRl.layoutParams = layoutParams
         }
 
-        if(AppLoader.taleList.size >= 6) {
+//        if(AppLoader.taleList.size > 3) {
+//            when(AppLoader.taleList.size % 3) {
+//                0 ->
+//            }
+//        }
+
+        if(AppLoader.taleList.size >= 6 && AppLoader.taleList.size % 3 == 0) {
+            Log.d("TAG", "onBindViewHolder: no remainder")
             if(position in AppLoader.taleList.size - 3 until AppLoader.taleList.size) {
                 val layoutParams =
                     ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT)
@@ -61,7 +69,6 @@ class TCAdapter() : RecyclerView.Adapter<TCAdapter.TaleHolder>() {
                 holder.binding.holderTaleCardRl.layoutParams = layoutParams
             }
         }
-
 
     }
 
