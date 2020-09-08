@@ -1,4 +1,4 @@
-package weer.elytrondesign.core
+package weer.elytrondesign.core.wp
 
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
@@ -6,6 +6,8 @@ import android.os.Message
 import com.squareup.okhttp.Callback
 import com.squareup.okhttp.Request
 import com.squareup.okhttp.Response
+import weer.elytrondesign.core.AppLoader
+import weer.elytrondesign.core.Core
 import weer.elytrondesign.present.Home
 import java.io.File
 import java.io.FileInputStream
@@ -45,7 +47,12 @@ class WallpaperThread() : Thread() {
                         override fun onResponse(response: Response?) {
                             val wallpaperResponse = response!!.body().bytes()
 
-                            Core.writeFile(AppLoader.appFilesDir, uniqueUrlPair[0].toString() + ".jpg", wallpaperResponse, false)
+                            Core.writeFile(
+                                AppLoader.appFilesDir,
+                                uniqueUrlPair[0].toString() + ".jpg",
+                                wallpaperResponse,
+                                false
+                            )
 
                             AppLoader.curHomeRlBg = BitmapDrawable(
                                 BitmapFactory.decodeByteArray(

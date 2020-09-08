@@ -10,7 +10,9 @@ import com.squareup.okhttp.Request
 import com.squareup.okhttp.Response
 import org.json.JSONArray
 import org.json.JSONObject
-import weer.elytrondesign.core.models.Tale
+import weer.elytrondesign.core.datamodels.Tale
+import weer.elytrondesign.core.wp.WallpaperManager
+import weer.elytrondesign.core.wp.WallpaperThread
 import weer.elytrondesign.present.Home
 import weer.elytrondesign.present.collection.ThumbnailDecoderThread
 import java.io.File

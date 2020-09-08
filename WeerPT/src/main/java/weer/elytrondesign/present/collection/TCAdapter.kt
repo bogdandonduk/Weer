@@ -59,8 +59,8 @@ class TCAdapter() : RecyclerView.Adapter<TCAdapter.TaleHolder>() {
 //            }
 //        }
 
-        if(AppLoader.taleList.size >= 6 && AppLoader.taleList.size % 3 == 0) {
-            Log.d("TAG", "onBindViewHolder: no remainder")
+        if(AppLoader.taleList.size >= 6) {
+            Log.d("TAG", "onBindViewHolder: no remainder" + AppLoader.taleList.size)
             if(position in AppLoader.taleList.size - 3 until AppLoader.taleList.size) {
                 val layoutParams =
                     ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT)
