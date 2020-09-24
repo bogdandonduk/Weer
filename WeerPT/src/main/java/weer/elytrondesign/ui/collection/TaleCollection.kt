@@ -1,23 +1,13 @@
-package weer.elytrondesign.present.collection
+package weer.elytrondesign.ui.collection
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.squareup.okhttp.Callback
-import com.squareup.okhttp.Request
-import com.squareup.okhttp.Response
-import org.json.JSONArray
-import org.json.JSONObject
 import weer.elytrondesign.core.AppLoader
-import weer.elytrondesign.core.Core
 import weer.elytrondesign.databinding.FragmentTaleCollectionBinding
-import weer.elytrondesign.present.Home
-import java.io.IOException
 
 class TaleCollection() : Fragment() {
     companion object {
@@ -35,7 +25,7 @@ class TaleCollection() : Fragment() {
     ): View? {
         binding = FragmentTaleCollectionBinding.inflate(inflater, container, false)
 
-        binding.collectionRV.adapter = TCAdapter()
+//        binding.collectionRV.adapter = TCAdapter()
         binding.collectionRV.layoutManager = GridLayoutManager(AppLoader.context, 3)
 
         return binding.root

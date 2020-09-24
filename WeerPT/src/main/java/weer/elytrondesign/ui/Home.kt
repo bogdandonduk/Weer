@@ -1,5 +1,6 @@
-package weer.elytrondesign.present
+package weer.elytrondesign.ui
 
+import android.graphics.drawable.TransitionDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -8,10 +9,10 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.fragment.app.FragmentManager
 import weer.elytrondesign.core.AppLoader
-import weer.elytrondesign.core.Core
+import weer.elytrondesign.core.FragmentHandler
 import weer.elytrondesign.databinding.ActivityHomeBinding
-import weer.elytrondesign.present.collection.TaleCollection
-import weer.elytrondesign.present.welcome.Welcome
+import weer.elytrondesign.ui.collection.TaleCollection
+import weer.elytrondesign.ui.welcome.WelcomeAdapter
 
 class Home : AppCompatActivity() {
 
@@ -21,14 +22,14 @@ class Home : AppCompatActivity() {
         lateinit var fm: FragmentManager
         var handler: HomeHandler = HomeHandler()
 
-        fun onInfoFetched() {
+        fun loadNextFragment() {
             if(!AppLoader.isAuth) {
-                Core.loadFragment(Authenticator.getInstance(), binding.homeContentL.id)
+                FragmentHandler.loadFragment(Authenticator.getInstance(), binding.homeContentL.id)
             } else {
                 if(!AppLoader.isWelcomed) {
-                    Core.loadFragment(Welcome.getInstance(), binding.homeContentL.id)
+                    FragmentHandler.loadFragment(WelcomeAdapter.getInstance(), binding.homeContentL.id)
                 } else {
-                    Core.loadFragment(TaleCollection.getInstance(), binding.homeContentL.id)
+                    FragmentHandler.loadFragment(TaleCollection.getInstance(), binding.homeContentL.id)
                 }
             }
         }
@@ -38,17 +39,29 @@ class Home : AppCompatActivity() {
             binding.homeTb.translationY = -30f
             binding.homeTb.animate().alpha(1f).setDuration(1000).start()
             binding.homeTb.animate().translationY(0f).setDuration(1000).start()
+        }
 
+        fun introCoverAnim() {
+            binding.homeCoverRl.animate().alpha(1f).setStartDelay(500).start()
         }
 
         fun runOnMainThread(runnable: Runnable) {
             runnable.run()
         }
+
+        fun initCover() {
+            binding.homeCoverRl.visibility = View.VISIBLE
+            
+            binding.homeCoverRl.background = AppLoader.curHomeCoverBg
+            binding.homeRl.background = AppLoader.curHomeRlOldBg
+
+            introCoverAnim()
+            introTbAnim()
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
 
         binding = ActivityHomeBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
@@ -57,7 +70,7 @@ class Home : AppCompatActivity() {
 
         if(savedInstanceState != null && isFirstLoaded) {
             binding.homeCoverRl.background = AppLoader.curHomeCoverBg
-            binding.homeRl.background = AppLoader.curHomeRlBg
+            binding.homeRl.background = AppLoader.curHomeRlOldBg
         } else {
             binding.homeCoverRl.visibility = View.GONE
             binding.homeCoverRl.alpha = 0f
@@ -66,17 +79,25 @@ class Home : AppCompatActivity() {
 
     class HomeHandler : Handler() {
         override fun handleMessage(msg: Message) {
-            if(msg.obj as String == "Cover") {
-                binding.homeCoverRl.visibility = View.VISIBLE
-                binding.homeCoverRl.background = AppLoader.curHomeCoverBg
-                binding.homeCoverRl.animate().alpha(1f).setStartDelay(500).start()
-                introTbAnim()
-                isFirstLoaded = true
-                onInfoFetched()
-            } else if(msg.obj as String == "Root"){
-                binding.homeRl.background = AppLoader.curHomeRlBg
-            } else {
-                runOnMainThread(msg.obj as Runnable)
+            when(msg.obj as String) {
+                "Cover" -> {
+                    initCover()
+                    isFirstLoaded = true
+                }
+                "Root" -> {
+                    val transitionDrawable = TransitionDrawable(arrayOf(AppLoader.curHomeRlOldBg, AppLoader.curHomeRlNewBg))
+
+                    binding.homeRl.background = transitionDrawable
+                    transitionDrawable.startTransition(500)
+
+                    AppLoader.curHomeRlOldBg = AppLoader.curHomeRlNewBg
+                }
+                "InfoFetched" -> {
+                    loadNextFragment()
+                }
+                else -> {
+
+                }
             }
         }
     }

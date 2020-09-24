@@ -1,4 +1,4 @@
-package weer.elytrondesign.present.collection.player
+package weer.elytrondesign.ui.collection.player
 
 import android.os.Bundle
 import android.view.LayoutInflater

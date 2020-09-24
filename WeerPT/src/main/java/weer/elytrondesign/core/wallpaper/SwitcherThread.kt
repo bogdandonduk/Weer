@@ -1,4 +1,4 @@
-package weer.elytrondesign.core.wp
+package weer.elytrondesign.core.wallpaper
 
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
@@ -7,19 +7,20 @@ import com.squareup.okhttp.Callback
 import com.squareup.okhttp.Request
 import com.squareup.okhttp.Response
 import weer.elytrondesign.core.AppLoader
-import weer.elytrondesign.core.Core
-import weer.elytrondesign.present.Home
+import weer.elytrondesign.core.FileHandler
+import weer.elytrondesign.core.NetworkHandler
+import weer.elytrondesign.ui.Home
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
 
-class WallpaperThread() : Thread() {
+class SwitcherThread() : Thread() {
 
     override fun run() {
-        while (true) {
+        while(true) {
             val refreshTime = System.currentTimeMillis() + 10 * 1000
 
-            while (System.currentTimeMillis() < refreshTime) {
+            while(System.currentTimeMillis() < refreshTime) {
                 sleep(1 * 1000)
             }
 
@@ -32,12 +33,12 @@ class WallpaperThread() : Thread() {
                     fis.read(wallpaperBa)
                     fis.close()
 
-                AppLoader.curHomeRlBg = BitmapDrawable(
+                AppLoader.curHomeRlNewBg = BitmapDrawable(
                     BitmapFactory.decodeByteArray(wallpaperBa, 0, wallpaperBa.size)
                 )
 
             } else {
-                Core.fetch(
+                NetworkHandler.fetch(
                     uniqueUrlPair[1].toString(),
                     object : Callback {
                         override fun onFailure(request: Request?, e: IOException?) {
@@ -47,14 +48,14 @@ class WallpaperThread() : Thread() {
                         override fun onResponse(response: Response?) {
                             val wallpaperResponse = response!!.body().bytes()
 
-                            Core.writeFile(
+                            FileHandler.writeFile(
                                 AppLoader.appFilesDir,
                                 uniqueUrlPair[0].toString() + ".jpg",
                                 wallpaperResponse,
                                 false
                             )
 
-                            AppLoader.curHomeRlBg = BitmapDrawable(
+                            AppLoader.curHomeRlNewBg = BitmapDrawable(
                                 BitmapFactory.decodeByteArray(
                                     wallpaperResponse,
                                     0,
@@ -73,10 +74,10 @@ class WallpaperThread() : Thread() {
     }
 
     fun pickUniqueUrlPair(): Array<Any> {
-        var urlPair = WallpaperManager.pickRandomUrlPair()
+        var urlPair = WpHandler.pickRandomUrlPair()
 
         while(!checkUrlUniquenessAmongLast5(urlPair[0] as Int)) {
-            urlPair = WallpaperManager.pickRandomUrlPair()
+            urlPair = WpHandler.pickRandomUrlPair()
         }
 
         addUrlIndexToLast5Stack(urlPair[0] as Int)

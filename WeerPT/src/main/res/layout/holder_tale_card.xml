@@ -5,7 +5,7 @@
     <data>
         <variable
             name="tale"
-            type="weer.elytrondesign.core.datamodels.Tale" />
+            type="weer.elytrondesign.core.data.models.Tale" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

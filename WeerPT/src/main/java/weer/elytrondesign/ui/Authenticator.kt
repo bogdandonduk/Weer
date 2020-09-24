@@ -1,4 +1,4 @@
-package weer.elytrondesign.present
+package weer.elytrondesign.ui
 
 import android.net.Uri
 import android.os.Bundle
@@ -10,11 +10,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.google.firebase.storage.FirebaseStorage
 import org.json.JSONObject
-import weer.elytrondesign.core.AppLoader
-import weer.elytrondesign.core.Core
+import weer.elytrondesign.core.*
 import weer.elytrondesign.databinding.FragmentAuthenticatorBinding
-import weer.elytrondesign.present.collection.TaleCollection
-import weer.elytrondesign.present.welcome.Welcome
+import weer.elytrondesign.ui.collection.TaleCollection
+import weer.elytrondesign.ui.welcome.WelcomeAdapter
 
 class Authenticator() : Fragment() {
 
@@ -64,26 +63,28 @@ class Authenticator() : Fragment() {
                     binding.authenticatorContentL.animate().alpha(0f).setDuration(500).setStartDelay(300).start()
                     binding.authenticatorContentL.animate().translationX(-30f).setDuration(500).setStartDelay(300).start()
 
-                    val authRecords = AppLoader.aDArray
+                    val authRecords = AppLoader.aDJsonArray
                     val newAuthRecord = JSONObject(AppLoader.aDList[0])
-                        newAuthRecord.put(Core.FB_INFO_PN_AD_ID, AppLoader.curAndroidInstallId)
-                        newAuthRecord.put(Core.FB_INFO_PN_AD_WELCOMED, false)
+                        newAuthRecord.put(NetworkHandler.FB_INFO_PN_AD_ID, AppLoader.curAndroidInstallId)
+                        newAuthRecord.put(NetworkHandler.FB_INFO_PN_AD_WELCOMED, false)
 
                     authRecords.put(authRecords.length(), newAuthRecord)
 
-                    val newInfo = JSONObject(AppLoader.info).put(Core.FB_INFO_PN_AD, authRecords)
+                    val newInfo = JSONObject(AppLoader.info).put(NetworkHandler.FB_INFO_PN_AD, authRecords)
 
-                    val newInfoFile = Core.writeFile(activity!!.filesDir, Core.FB_CACHED_INFO_FN, newInfo.toString().toByteArray(), false)
-                    FirebaseStorage.getInstance().reference.child(Core.FB_INFO_FN).putFile(Uri.fromFile(newInfoFile))
+                    val newInfoFile = FileHandler.writeFile(activity!!.filesDir, NetworkHandler.FB_CACHED_INFO_FN, newInfo.toString().toByteArray(), false)
+                    FirebaseStorage.getInstance().reference.child(NetworkHandler.FB_INFO_FN).putFile(Uri.fromFile(newInfoFile))
+
+                    FileHandler.deleteFile(newInfoFile)
 
                     AppLoader.info = newInfo.toString()
-                    AppLoader.initProps()
+                    AppLoader.initAllInfoProps()
 
-                    Core.runDelayed(800) {
+                    CommonUtils.runDelayed(800) {
                         if (!AppLoader.isWelcomed) {
-                            Core.loadFragment(Welcome.getInstance(), Home.binding.homeContentL.id)
+                            FragmentHandler.loadFragment(WelcomeAdapter.getInstance(), Home.binding.homeContentL.id)
                         } else {
-                            Core.loadFragment(
+                            FragmentHandler.loadFragment(
                                 TaleCollection.getInstance(),
                                 Home.binding.homeContentL.id
                             )

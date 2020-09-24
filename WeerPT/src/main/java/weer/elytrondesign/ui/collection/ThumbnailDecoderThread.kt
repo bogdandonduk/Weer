@@ -1,4 +1,4 @@
-package weer.elytrondesign.present.collection
+package weer.elytrondesign.ui.collection
 
 class ThumbnailDecoderThread() : Thread() {
 

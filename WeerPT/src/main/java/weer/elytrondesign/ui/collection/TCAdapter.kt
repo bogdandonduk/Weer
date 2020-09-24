@@ -1,4 +1,4 @@
-package weer.elytrondesign.present.collection
+package weer.elytrondesign.ui.collection
 
 import android.app.ActionBar
 import android.util.Log
@@ -9,10 +9,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import weer.elytrondesign.R
 import weer.elytrondesign.core.AppLoader
-import weer.elytrondesign.core.Core
+import weer.elytrondesign.core.FragmentHandler
 import weer.elytrondesign.databinding.HolderTaleCardBinding
-import weer.elytrondesign.present.Home
-import weer.elytrondesign.present.collection.player.Player
+import weer.elytrondesign.ui.Home
+import weer.elytrondesign.ui.collection.player.Player
 
 class TCAdapter() : RecyclerView.Adapter<TCAdapter.TaleHolder>() {
 
@@ -23,7 +23,7 @@ class TCAdapter() : RecyclerView.Adapter<TCAdapter.TaleHolder>() {
         }
 
         override fun onClick(view: View?) {
-            Core.loadFragment(Player.getInstance(), Home.binding.homeContentL.id, "null")
+            FragmentHandler.loadFragment(Player.getInstance(), Home.binding.homeContentL.id, "null")
         }
     }
 

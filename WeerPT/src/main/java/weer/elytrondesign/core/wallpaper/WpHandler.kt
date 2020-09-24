@@ -1,9 +1,9 @@
-package weer.elytrondesign.core.wp
+package weer.elytrondesign.core.wallpaper
 
 import weer.elytrondesign.R
 import java.util.*
 
-abstract class WallpaperManager {
+abstract class WpHandler {
 
     companion object {
         const val URL_0 =
@@ -328,6 +328,7 @@ abstract class WallpaperManager {
                     }
                 }
             }
+
             return pair
         }
     }

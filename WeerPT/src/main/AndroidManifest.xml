@@ -14,14 +14,18 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/appName"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
         android:theme="@style/MainTheme">
-        <activity android:name=".present.Home">
+
+        <activity android:name=".ui.Home" />
+
+        <activity-alias
+            android:name="Home"
+            android:targetActivity=".ui.Home">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+        </activity-alias>
 
     </application>
 
